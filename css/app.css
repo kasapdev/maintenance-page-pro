@@ -1,0 +1,232 @@
+/* =====================================================================
+   Maintenance Page Generator Pro — app.css
+   App-specific layout. Colors always reference base.css tokens so the
+   dark + light themes both look correct. Never hardcode surface/text hex.
+   ===================================================================== */
+
+.app { padding-bottom: var(--space-8); }
+
+/* ===================== Toolbar ===================== */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+}
+.toolbar__lead { display: flex; align-items: center; gap: var(--space-3); min-width: 0; }
+.toolbar__hint { font-size: 13px; }
+.toolbar__actions { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+.live-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--success);
+  box-shadow: 0 0 0 0 var(--success); animation: livePulse 2s var(--ease) infinite;
+}
+@keyframes livePulse {
+  0% { box-shadow: 0 0 0 0 rgba(34,197,94,.5); }
+  70% { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+}
+
+/* ===================== Workspace grid ===================== */
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+/* ===================== Editor panel ===================== */
+.editor {
+  padding: var(--space-5);
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+  position: sticky;
+  top: 84px;
+}
+.editor form { display: flex; flex-direction: column; gap: var(--space-5); }
+
+.group {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  padding: var(--space-4);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.group__title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0 var(--space-2);
+}
+
+/* Toggle rows */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  cursor: pointer;
+}
+.toggle-row strong { display: block; font-size: 14px; color: var(--text); font-weight: 600; }
+.toggle-row small { display: block; font-size: 12px; line-height: 1.4; margin-top: 2px; }
+.sub-field {
+  padding-top: var(--space-3);
+  border-top: 1px dashed var(--border);
+}
+
+.field-inline { margin-top: var(--space-2); }
+
+/* ===================== Emoji picker ===================== */
+.emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-2);
+}
+.emoji-grid button {
+  aspect-ratio: 1;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: transform var(--dur-1) var(--ease), border-color var(--dur-1), background var(--dur-1), box-shadow var(--dur-1);
+}
+.emoji-grid button:hover { transform: translateY(-2px); background: var(--surface-3); }
+.emoji-grid button[aria-pressed="true"] {
+  border-color: var(--brand-500);
+  box-shadow: var(--shadow-glow);
+  background: var(--surface-3);
+}
+.emoji-grid button:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(99,102,241,.4); }
+
+/* ===================== Color inputs ===================== */
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+.color-input {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 4px 8px 4px 4px;
+}
+.color-input input[type=color] {
+  -webkit-appearance: none; appearance: none;
+  width: 34px; height: 34px; padding: 0; border: none; background: none; cursor: pointer;
+  border-radius: var(--radius-sm); flex: none;
+}
+.color-input input[type=color]::-webkit-color-swatch-wrapper { padding: 0; }
+.color-input input[type=color]::-webkit-color-swatch { border: 1px solid var(--border-strong); border-radius: var(--radius-sm); }
+.color-input input[type=color]::-moz-color-swatch { border: 1px solid var(--border-strong); border-radius: var(--radius-sm); }
+.color-input .hex {
+  border: none; background: none; padding: 0; width: 100%; font-size: 13px; text-transform: lowercase;
+}
+.color-input .hex:focus { box-shadow: none; background: none; }
+
+/* ===================== Social links ===================== */
+.social-list { display: flex; flex-direction: column; gap: var(--space-3); }
+.social-row {
+  display: grid;
+  grid-template-columns: 130px 1fr auto;
+  gap: var(--space-2);
+  align-items: center;
+  animation: fadeIn .25s var(--ease) both;
+}
+.social-row .btn--icon { width: 38px; height: 38px; }
+.social-empty {
+  font-size: 13px; color: var(--text-muted); text-align: center;
+  padding: var(--space-3); border: 1px dashed var(--border); border-radius: var(--radius-md);
+}
+.add-social { justify-content: center; }
+
+/* ===================== Preview / browser frame ===================== */
+.preview { min-width: 0; position: sticky; top: 84px; }
+.browser-frame {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  background: var(--surface-solid);
+  animation: rise .5s var(--ease) both;
+}
+.browser-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 10px var(--space-4);
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+.browser-bar .dots { display: inline-flex; gap: 7px; flex: none; }
+.browser-bar .dots i { width: 11px; height: 11px; border-radius: 50%; background: var(--border-strong); }
+.browser-bar .dots i:nth-child(1) { background: #ff5f57; }
+.browser-bar .dots i:nth-child(2) { background: #febc2e; }
+.browser-bar .dots i:nth-child(3) { background: #28c840; }
+.url-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-full); padding: 5px 14px;
+  font-size: 12px; color: var(--text-secondary); max-width: 60%;
+}
+.url-pill svg { width: 12px; height: 12px; color: var(--success); flex: none; }
+.bar-spacer { flex: 1; }
+.refresh svg { width: 15px; height: 15px; color: var(--text-muted); }
+
+#previewFrame {
+  display: block;
+  width: 100%;
+  height: clamp(520px, calc(100vh - 240px), 760px);
+  border: none;
+  background: var(--surface);
+}
+
+/* ===================== Help modal table ===================== */
+.shortcut-table { width: 100%; border-collapse: collapse; }
+.shortcut-table td { padding: 9px 4px; font-size: 14px; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
+.shortcut-table td:last-child { text-align: right; white-space: nowrap; }
+.shortcut-table tr:last-child td { border-bottom: none; }
+.shortcut-table kbd { margin-left: 3px; }
+
+/* ===================== Theme toggle icon swap ===================== */
+[data-theme-toggle] .ico-moon { display: none; }
+[data-theme="light"] [data-theme-toggle] .ico-sun { display: none; }
+[data-theme="light"] [data-theme-toggle] .ico-moon { display: block; }
+
+/* The mobile Edit/Preview toggle is desktop-hidden; preview is always shown. */
+.view-toggle { display: none; }
+
+/* ===================== Responsive ===================== */
+@media (max-width: 920px) {
+  .workspace { grid-template-columns: 1fr; }
+  .editor, .preview { position: static; max-height: none; top: auto; }
+  .view-toggle { display: inline-flex; }
+
+  /* Mobile: show one panel at a time, driven by [data-view] */
+  .workspace[data-view="edit"] .preview { display: none; }
+  .workspace[data-view="preview"] .editor { display: none; }
+  #previewFrame { height: clamp(460px, 70vh, 680px); }
+}
+
+@media (max-width: 540px) {
+  .color-grid { grid-template-columns: 1fr; }
+  .social-row { grid-template-columns: 1fr; }
+  .social-row .btn--icon { justify-self: end; }
+  .emoji-grid { grid-template-columns: repeat(5, 1fr); }
+  .toolbar__actions { width: 100%; }
+  .toolbar__actions .btn { flex: 1; }
+  .toolbar__lead { width: 100%; justify-content: space-between; }
+}
