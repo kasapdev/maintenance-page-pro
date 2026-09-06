@@ -95,6 +95,14 @@
     return 0.2126 * r + 0.7152 * g + 0.0722 * b;
   }
 
+  /* Block script-executing URL schemes (javascript:, data:, vbscript:, file:)
+     from ever landing in an exported page's href — a pasted link here becomes
+     a live, clickable link on the real deployed site for every visitor. Plain
+     http(s)/mailto links and bare domains (no scheme) are left untouched. */
+  function isDangerousHref(href) {
+    return /^\s*(javascript|data|vbscript|file):/i.test(String(href || ''));
+  }
+
   /* ---- Social row markup ---- */
   function socialMarkup(cfg) {
     var links = (cfg.socials || []).filter(function (s) { return s && s.url && s.url.trim(); });
@@ -103,11 +111,13 @@
       var plat = SOCIAL_ICONS[s.platform] ? s.platform : 'website';
       var url = s.url.trim();
       var href = plat === 'email' ? (url.indexOf('mailto:') === 0 ? url : 'mailto:' + url) : url;
+      if (isDangerousHref(href)) return '';
       var label = SOCIAL_LABELS[plat] || 'Link';
       return '<a class="mp-social" href="' + esc(href) + '" aria-label="' + esc(label) + '"' +
         (plat === 'email' ? '' : ' target="_blank" rel="noopener noreferrer"') + '>' +
         SOCIAL_ICONS[plat] + '</a>';
-    }).join('');
+    }).filter(Boolean).join('');
+    if (!items) return '';
     return '<nav class="mp-socials" aria-label="Social links">' + items + '</nav>';
   }
 
